@@ -1,0 +1,32 @@
+{% extends "tickets/dashboard.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ ticket.title }}</h2>
+    <p>{{ ticket.description }}</p>
+    <p><strong>Status:</strong> {{ ticket.status }}</p>
+    <p><strong>Created by:</strong> {{ ticket.creator.username }}</p>
+    {% if ticket.assigned_engineer == user or user.is_superuser %}
+        <h4 class="mt-4">Add a Comment</h4>
+        <form method="post">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit" class="btn btn-primary">Add Comment</button>
+        </form>
+    {% else %}
+        <p>You do not have permission to add comments to this ticket.</p>
+    {% endif %}
+
+    <h3 class="mt-4">Comments</h3>
+    <div class="list-group mb-3">
+        {% for comment in comments %}
+            <div class="list-group-item">
+                <p><strong>{{ comment.user.username }}</strong> commented:</p>
+                <p>{{ comment.comment_text }}</p>
+                <small class="text-muted">On {{ comment.timestamp }}</small>
+            </div>
+        {% empty %}
+            <p>No comments yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
