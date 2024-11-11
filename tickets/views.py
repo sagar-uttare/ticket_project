@@ -3,12 +3,12 @@ from django.contrib.auth import login, authenticate,logout
 from django.contrib import messages
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from django.contrib.auth.decorators import login_required
-
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Ticket, Comment
 from .forms import TicketForm, CommentForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseForbidden
+
 # Create your views here.
 
 def base(request):
@@ -54,7 +54,6 @@ def user_logout(request):
 #models Views
 
 
-# Utility function to check if a user is an engineer
 def is_engineer(user):
     return user.groups.filter(name='Engineer').exists()
 
@@ -80,7 +79,6 @@ def ticket_create(request):
 def ticket_detail(request, id):
     ticket = get_object_or_404(Ticket, id=id)
     
-    # Ensure only assigned engineers or the ticket creator can access this page
     if ticket.creator != request.user and ticket.assigned_engineer != request.user and not request.user.is_superuser:
         return HttpResponseForbidden("You are not authorized to view this ticket.")
     

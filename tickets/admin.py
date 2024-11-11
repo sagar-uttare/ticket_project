@@ -3,7 +3,7 @@ from .models import Ticket, Comment
 
 class CommentInline(admin.TabularInline):
     model = Comment
-    extra = 1  # Show 1 extra comment field in the ticket view
+    extra = 1  
 
 class TicketAdmin(admin.ModelAdmin):
     list_display = ('title', 'creator', 'assigned_engineer', 'status', 'created_at')

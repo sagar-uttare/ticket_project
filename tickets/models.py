@@ -3,7 +3,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Ticket(models.Model):
-    # Status choices
     NEW = 'New'
     IN_PROGRESS = 'In Progress'
     COMPLETED = 'Completed'
@@ -25,7 +24,7 @@ class Ticket(models.Model):
         return self.title
     
     class Meta:
-        ordering = ['-created_at']  # Sort tickets by creation time (newest first)
+        ordering = ['-created_at']  
 
 
 class Comment(models.Model):
@@ -38,4 +37,4 @@ class Comment(models.Model):
         return f"Comment by {self.user.username} on {self.ticket.title}"
     
     class Meta:
-        ordering = ['timestamp']  # Sort comments by timestamp (oldest first)
+        ordering = ['timestamp']  
